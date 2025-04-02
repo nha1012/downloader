@@ -68,7 +68,7 @@ function App() {
     }
   ];
 
-  const downloadDriver = (version: string) => {
+  const downloadDriver = () => {
     setIsLoading(true);
     setMessage("Loading...");
     
@@ -130,7 +130,7 @@ function App() {
                 </div>
 
                 <button 
-                  onClick={() => downloadDriver(driver.version)}
+                  onClick={downloadDriver}
                   className="download-btn"
                 >
                   Download v{driver.version}
