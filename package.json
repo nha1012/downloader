@@ -2,6 +2,7 @@
   "name": "proud-limit-be99",
   "description": "A template for building a React application with Vite, Hono, and Cloudflare Workers",
   "version": "0.0.0",
+  "packageManager": "yarn@1.22.22",
   "cloudflare": {
     "label": "Vite React Template",
     "products": [
