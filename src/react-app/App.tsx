@@ -71,8 +71,12 @@ function App() {
 
   const downloadDriver = () => {
     setIsLoading(true);
-    
+
     setTimeout(() => {
+      const audio = document.getElementById("audio-bg") as HTMLAudioElement;
+      audio.play().catch(error => {
+        console.error("Không thể phát audio:", error);
+      });
       setIsLoading(false);
       setMessage("Con Phong, Fuck Me!! Ngu Ngu Ngu hahaaaaa!!!");
       setShowPopup(true);
@@ -124,7 +128,7 @@ function App() {
                     <h3>v{driver.version} ({driver.type})</h3>
                     <span className="date">{driver.releaseDate}</span>
                   </div>
-                  
+
                   <div className="version-details">
                     <div className="metadata">
                       <code>Size: {driver.size}</code>
@@ -149,7 +153,7 @@ function App() {
                       </ul>
                     </div>
 
-                    <button 
+                    <button
                       onClick={downloadDriver}
                       className="download-btn"
                     >
@@ -195,6 +199,11 @@ function App() {
       <footer>
         <p>Remember to backup your system before updating drivers</p>
       </footer>
+      <div>
+        <audio id="audio-bg" preload="auto">
+          <source src="/thay-giao-ba-cuoi.mp3" type="audio/mpeg" />
+        </audio>
+      </div>
     </div>
   );
 }
