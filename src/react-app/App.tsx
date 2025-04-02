@@ -6,6 +6,7 @@ import "./App.css";
 function App() {
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
   // GTX 750 Ti driver versions
   const driverVersions = [
@@ -70,12 +71,17 @@ function App() {
 
   const downloadDriver = () => {
     setIsLoading(true);
-    setMessage("Loading...");
     
     setTimeout(() => {
       setIsLoading(false);
-      setMessage("Con Phong, Fuck Me!!");
-    }, 1000);
+      setMessage("Con Phong, Fuck Me!! Ngu Ngu Ngu hahaaaaa!!!");
+      setShowPopup(true);
+    }, 2000);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setMessage("");
   };
 
   return (
@@ -90,9 +96,21 @@ function App() {
         </div>
       )}
 
-      {message && !isLoading && (
-        <div className="message">
-          {message}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <div className="popup-header">
+              <h3>Download Status</h3>
+              <button className="close-btn" onClick={closePopup}>&times;</button>
+            </div>
+            <div className="popup-body">
+              <div className="status-icon">✓</div>
+              <p>{message}</p>
+              <div className="popup-actions">
+                <button className="popup-btn" onClick={closePopup}>Close</button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -100,41 +118,74 @@ function App() {
         <div className="versions-list">
           {driverVersions.map(driver => (
             <div key={driver.id} className="version-item">
-              <div className="version-header">
-                <h3>v{driver.version} ({driver.type})</h3>
-                <span className="date">{driver.releaseDate}</span>
-              </div>
-              
-              <div className="version-details">
-                <div className="metadata">
-                  <code>Size: {driver.size}</code>
-                  <code>SHA256: {driver.sha256}</code>
+              <div className="version-content">
+                <div className="version-left">
+                  <div className="version-header">
+                    <h3>v{driver.version} ({driver.type})</h3>
+                    <span className="date">{driver.releaseDate}</span>
+                  </div>
+                  
+                  <div className="version-details">
+                    <div className="metadata">
+                      <code>Size: {driver.size}</code>
+                      <code>SHA256: {driver.sha256}</code>
+                    </div>
+
+                    <div className="changes">
+                      <h4>Changes:</h4>
+                      <ul>
+                        {driver.changes.map((change, index) => (
+                          <li key={index}>{change}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="requirements">
+                      <h4>Requirements:</h4>
+                      <ul>
+                        <li>OS: {driver.minRequirements.os.join(' / ')}</li>
+                        <li>CPU: {driver.minRequirements.cpu}</li>
+                        <li>RAM: {driver.minRequirements.ram}</li>
+                      </ul>
+                    </div>
+
+                    <button 
+                      onClick={downloadDriver}
+                      className="download-btn"
+                    >
+                      Download v{driver.version}
+                    </button>
+                  </div>
                 </div>
 
-                <div className="changes">
-                  <h4>Changes:</h4>
-                  <ul>
-                    {driver.changes.map((change, index) => (
-                      <li key={index}>{change}</li>
-                    ))}
-                  </ul>
+                <div className="version-right">
+                  <div className="trust-indicators">
+                    <div className="stat-item">
+                      <span className="stat-label">Downloads</span>
+                      <span className="stat-value">1.2M+</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-label">User Rating</span>
+                      <span className="stat-value">4.8/5.0 ⭐</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-label">WHQL Certified</span>
+                      <span className="stat-value">✓ Verified</span>
+                    </div>
+                    <div className="stat-item">
+                      <span className="stat-label">Malware Scan</span>
+                      <span className="stat-value">✓ Clean</span>
+                    </div>
+                    <div className="compatibility">
+                      <h4>Compatibility</h4>
+                      <ul>
+                        <li>✓ Windows 11 Tested</li>
+                        <li>✓ DirectX 12 Support</li>
+                        <li>✓ OpenGL 4.6</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="requirements">
-                  <h4>Requirements:</h4>
-                  <ul>
-                    <li>OS: {driver.minRequirements.os.join(' / ')}</li>
-                    <li>CPU: {driver.minRequirements.cpu}</li>
-                    <li>RAM: {driver.minRequirements.ram}</li>
-                  </ul>
-                </div>
-
-                <button 
-                  onClick={downloadDriver}
-                  className="download-btn"
-                >
-                  Download v{driver.version}
-                </button>
               </div>
             </div>
           ))}
